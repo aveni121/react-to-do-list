@@ -20,6 +20,21 @@ class ToDoList extends React.Component {
     };
   }
 
+  handleTaskUpdate(taskToUpdate) {
+    this.setState((prevState) => {
+      return {
+        ...prevState,
+        tasks: prevState.tasks.map((task) => {
+          if (task.id === taskToUpdate.id) {
+            return { ...task, isDone: !task.isDone };
+          }
+
+          return task;
+        }),
+      };
+    });
+  }
+
   render() {
     const tasks = this.state.tasks;
     const columns = [
@@ -28,7 +43,7 @@ class ToDoList extends React.Component {
       { title: "All", tasks },
     ];
     return (
-      <React.Fragment>
+      <div className="container-fluid text-center">
         <div>
           <h1>To-Do List</h1>
         </div>
@@ -36,22 +51,22 @@ class ToDoList extends React.Component {
           <input type="text" />
           <span>Create</span>
         </div>
-        <div>
+        <div className="row">
           {columns.map((col) => (
-            <React.Fragment>
+            <div className="col-4">
               <div>{col.title}</div>
               <div>
                 {col.tasks.map((task) => (
-                  <React.Fragment>
+                  <div onClick={() => this.handleTaskUpdate(task)}>
                     <input type="checkbox" checked={task.isDone}></input>
                     <span>{task.name}</span>
-                  </React.Fragment>
+                  </div>
                 ))}
               </div>
-            </React.Fragment>
+            </div>
           ))}
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }
